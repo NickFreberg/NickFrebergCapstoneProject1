@@ -59,9 +59,10 @@ def setup_db(cursor: sqlite3.Cursor):
 
 
 def add_to_db(conn, cursor:sqlite3.Cursor, entry):
+    conn,cursor = open_db("jobs_db.db")
 
-    sql = '''INSERT INTO GitHub_Jobs (id, type , url, created_at, company, company_url, title, description)
-    VALUES (?,?,?,?,?,?,?,?)'''
+    sql = ('INSERT INTO GitHub_Jobs (id, type , url, created_at, company, company_url, title, description)\n'
+           '    VALUES (?,?,?,?,?,?,?,?), ')
 
     cur = conn.cursor()
     cur.execute(sql, entry)
@@ -76,17 +77,7 @@ def main():
     data = get_data()
     print(data)
     save_data(data)
-    print(type(conn))
-
     count = 0
-    """I used this line beneath to test getting a parameter from an entry. 
-    This was helpful when putting the data into the db"""
-    for i in range(len(data)):
-        entry = data[i]
-        count += 1
-        add_to_db(conn, cursor, entry)
-        print("successfully added ", count, " entries.")
-
     conn.commit()
     close_db(conn)
 

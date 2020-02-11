@@ -45,6 +45,9 @@ def test_db_exists():
     # tests if database is there
     # Open the database
     conn, cursor = main.open_db("jobs_db.db")
+    print(type(conn))
+    print("Can confirm database exists")
+    main.close_db()
 
 
 
