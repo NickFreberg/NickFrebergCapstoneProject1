@@ -45,17 +45,27 @@ def close_db(connection: sqlite3.Connection):
 
 def setup_db(cursor: sqlite3.Cursor):
     # Create the Table of GitHub Jobs
-    cursor.execute('''CREATE TABLE IF NOT EXISTS "GitHub Jobs" (
-    "id" TEXT,
-    "type"	TEXT,
-    "url" TEXT,
-    "created_at" TEXT,
-    "company" TEXT,
-    "company_url" TEXT,
-    "title"	TEXT,
-    "description" TEXT,
+    cursor.execute(f'''CREATE TABLE IF NOT EXISTS GitHub_Jobs (
+    "id" TEXT NOT NULL PRIMARY KEY ,
+    "type"	TEXT NOT NULL,
+    "url" TEXT NOT NULL,
+    "created_at" TEXT NOT NULL,
+    "company" TEXT NOT NULL,
+    "company_url" TEXT NOT NULL,
+    "title"	TEXT NOT NULL,
+    "description" TEXT NOT NULL,
     PRIMARY KEY("id")
     );''')
+
+
+def add_to_db(conn, cursor:sqlite3.Cursor, entry):
+
+    sql = '''INSERT INTO GitHub_Jobs (id, type , url, created_at, company, company_url, title, description)
+    VALUES (?,?,?,?,?,?,?,?)'''
+
+    cur = conn.cursor()
+    cur.execute(sql, entry)
+    return cur.lastrowid
 
 
 def main():
@@ -64,9 +74,22 @@ def main():
     # Create the GitHub Jobs Table in the database
     setup_db(cursor)
     data = get_data()
+    print(data)
     save_data(data)
-
     print(type(conn))
+
+    count = 0
+    """I used this line beneath to test getting a parameter from an entry. 
+    This was helpful when putting the data into the db"""
+    for i in range(len(data)):
+        entry = data[i]
+        count += 1
+        add_to_db(conn, cursor, entry)
+        print("successfully added ", count, " entries.")
+
+    conn.commit()
     close_db(conn)
 
 
+if __name__ == '__main__':
+    main()
