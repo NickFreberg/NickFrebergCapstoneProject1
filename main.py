@@ -58,15 +58,20 @@ def setup_db(cursor: sqlite3.Cursor):
     );''')
 
 
-def add_to_db(conn, cursor:sqlite3.Cursor, entry):
-    conn,cursor = open_db("jobs_db.db")
+def add_data_db(cursor: sqlite3.Cursor, data):
+    """conn,cursor = open_db("jobs_db.db")
 
     sql = ('INSERT INTO GitHub_Jobs (id, type , url, created_at, company, company_url, title, description)\n'
            '    VALUES (?,?,?,?,?,?,?,?), ')
 
     cur = conn.cursor()
     cur.execute(sql, entry)
-    return cur.lastrowid
+    return cur.lastrowid"""
+
+    for i in data:
+        cursor.execute('INSERT or IGNORE INTO GitHub_Jobs VALUES (?,?,?,?,?,?,?,?)',
+                       [i['id'], i['type'], i['url'], i['created_at'], i['company'], i['location'],
+                        i['title'], i['description']])
 
 
 def main():
@@ -77,6 +82,7 @@ def main():
     data = get_data()
     print(data)
     save_data(data)
+    add_data_db(cursor,data)
     count = 0
     conn.commit()
     close_db(conn)
