@@ -4,6 +4,7 @@ from typing import Dict, List, Tuple
 import sqlite3
 
 
+# looks like sprint2 went a lot better than sprint 1
 def get_data() -> List[Dict]:
     """retrieve github jobs data and turns it into a dict"""
     data = []
