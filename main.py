@@ -210,7 +210,6 @@ def stackoverflow_job_locations(cursor: sqlite3.Cursor, stackjobsdata):
         cities = GeoText(job.title)
         debug_count = debug_count + 1
         print(debug_count)
-        geopy.extra()
         location = geolocator.geocode(cities.cities, timeout=15)
         if location == "remote" or location == "Remote" or location is None:
             continue
