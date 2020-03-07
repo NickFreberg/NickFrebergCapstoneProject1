@@ -3,7 +3,8 @@ Nick Freberg
 COMP 490
 
 Project 1
-Sprint 3
+Sprint 4
 
-What's Missing: 
-Testing and a few parameters for the stack overflow jobs
++ Updated failed sprint 3 with all data for that sprint now appearing in one database
++ Generated a second database table specifically to include location data (longitude and latitude, etc)
++ With this data, I created a plotly map with help from  geopandas and geopy to put display all the jobs and their locations on the map
